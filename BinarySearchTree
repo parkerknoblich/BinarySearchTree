@@ -35,11 +35,11 @@ public class Tree {
         return current;
     }
 
+    // Returns whether a value is in the tree.
     public boolean find(int value) {
         return findRecursive(root, value);
     }
 
-    // Returns whether a value is in the tree.
     private boolean findRecursive(Node current, int value) {
         if (current == null) {
             return false;
