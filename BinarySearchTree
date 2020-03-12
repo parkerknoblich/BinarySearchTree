@@ -35,15 +35,19 @@ public class Tree {
         return current;
     }
 
+    public boolean find(int value) {
+        return findRecursive(root, value);
+    }
+
     // Returns whether a value is in the tree.
-    public boolean find(Node current, int value) {
+    private boolean findRecursive(Node current, int value) {
         if (current == null) {
             return false;
         }
         if (current.value == value) {
             return true;
         }
-        return find(current.left, value) || find(current.right, value);
+        return findRecursive(current.left, value) || findRecursive(current.right, value);
     }
 
     // Deletes a node from the tree and preserves the in-order structure of the tree.
