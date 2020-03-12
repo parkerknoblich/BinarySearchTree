@@ -1,0 +1,130 @@
+public class Tree {
+
+    // A reference to the root of the tree.
+    Node root;
+
+    // A class that can hold a value and a reference to its left and right children.
+    static class Node {
+        int value;
+        Node left;
+        Node right;
+
+        Node(int value) {
+            this.value = value;
+            this.left = null;
+            this.right = null;
+        }
+
+    }
+
+    // Adds a node to the tree.
+    public void add(int value) {
+        root = addRecursive(root, value);
+    }
+
+    private Node addRecursive(Node current, int value) {
+        if (current == null) {
+            return new Node(value);
+        } else if (value < current.value) {
+            current.left = addRecursive(current.left, value);
+        } else if (value > current.value) {
+            current.right = addRecursive(current.right, value);
+        } else {
+            return current;
+        }
+        return current;
+    }
+
+    // Returns whether a value is in the tree.
+    public boolean find(Node current, int value) {
+        if (current == null) {
+            return false;
+        }
+        if (current.value == value) {
+            return true;
+        }
+        return find(current.left, value) || find(current.right, value);
+    }
+
+    // Deletes a node from the tree and preserves the in-order structure of the tree.
+    public void delete(int value) {
+        root = deleteRecursive(root, value);
+    }
+
+    private Node deleteRecursive(Node current, int value) {
+        if (current == null) {
+            return null;
+        }
+        if (value < current.value) {
+            current.left = deleteRecursive(current.left, value);
+        } else if (value > current.value) {
+            current.right = deleteRecursive(current.right, value);
+        } else {
+            if (current.left == null) {
+                return current.right;
+            } else if (current.right == null) {
+                return current.left;
+            } else {
+                current.value = minChild(current.right);
+                current.right = deleteRecursive(current.right, current.value);
+            }
+        }
+        return current;
+    }
+
+    // Finds the smallest right child of a node.
+    private int minChild(Node current) {
+        int min = current.value;
+        while (current.left != null) {
+            min = current.left.value;
+            current = current.left;
+        }
+        return min;
+    }
+
+    // Returns the number of nodes in the tree.
+    public int size() {
+        return sizeRecursive(root);
+    }
+
+    private int sizeRecursive(Node current) {
+        if (current == null) {
+            return 0;
+        }
+        return 1 + sizeRecursive(current.left) + sizeRecursive(current.right);
+    }
+
+    // Prints a pre-order traversal of the tree.
+    public void printPreOrder(Node current) {
+        if (current != null) {
+            System.out.println(current.value);
+            printPreOrder(current.left);
+            printPreOrder(current.right);
+        }
+    }
+
+    // Prints an in-order traversal of the tree.
+    public void printInOrder(Node current) {
+        if (current != null) {
+            printInOrder(current.left);
+            System.out.println(current.value);
+            printInOrder(current.right);
+        }
+    }
+
+    // Prints a post-order traversal of the tree.
+    public void printPostOrder(Node current) {
+        if (current != null) {
+            printPostOrder(current.left);
+            printPostOrder(current.right);
+            System.out.println(current.value);
+        }
+    }
+
+    // Driver method.
+    public static void main(String[] args) {
+        Tree tree = new Tree();
+        // ...
+    }
+
+}
